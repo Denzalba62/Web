@@ -29,3 +29,33 @@
     applyTheme(current === "dark" ? "light" : "dark");
   });
 })();
+
+// Mobile nav toggle
+(() => {
+  const menuToggle = document.getElementById("menuToggle");
+  const nav = document.getElementById("primary-nav");
+  if (!menuToggle || !nav) return;
+
+  const setExpanded = (expanded) => menuToggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    setExpanded(isOpen);
+  });
+
+  // Close menu on link click (better UX)
+  nav.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      nav.classList.remove("open");
+      setExpanded(false);
+    })
+  );
+
+  // Reset menu on resize to desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768) {
+      nav.classList.remove("open");
+      setExpanded(false);
+    }
+  });
+})();
